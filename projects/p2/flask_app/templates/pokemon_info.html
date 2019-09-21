@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<b>Pokemon Info:</b> (<a href={{ url_for('index') }}>Back</a>)
+<p>
+    <b>Name:</b> {{ pokemon.name}}
+    </br></br>
+    <b>Height:</b> {{ pokemon.height}}
+    </br></br>
+    <b>Weight:</b> {{ pokemon.weight }}
+    </br></br>
+    <b>Base Experience:</b> {{ pokemon.base_exp }}
+    </br></br>
+    <b>Abilities:</b>
+    <ul>
+        {% for ability in pokemon.abilities %}
+            <li><a href= {{ url_for('pokemon_with_ability', ability_name=ability) }}>{{ ability }}</a></li>
+        {% endfor %}
+    </ul>
+    </br>
+    <b>Moves:</b>
+    <ul>
+        {% for move in pokemon.moves %}
+            <li>{{ move }}</li>
+        {% endfor %}
+    </ul>
+<p>
+
+    
+{% endblock %}
