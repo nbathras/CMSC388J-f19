@@ -33,7 +33,7 @@ has all of the formatting taken care of. `post.html` also has all of the formatt
 taken care of, you just have to replace the placeholder values
 with actual values.
 
-`list.html` does not have the formatting finished. All of the blog posts
+`user.html` does not have the formatting finished. All of the blog posts
 created by a certain user should be listed there. Format it the
 same way as `index.html` is formatted for listing all of the posts.
 
@@ -60,8 +60,12 @@ In `routes.py`, you're required to implement three functions:
 
 2. `profile()` - Shows the user's details and a list of all of the blog posts written by the user
    
-   Routed at: `/user/<name>`
+   Routed at: `/<name>_<int:user_id>`
    Methods: [`GET`]
+
+   **Update:** The `user_id` parameter was added. This is to differentiate users who might
+   have the same name. Sorry for missing this the first time. The `int:` just specifies that
+   `user_id` should be an integer.
 
    Display the user's name, email, the number of posts written, and a list of all
    the blog posts written by the user.
@@ -95,24 +99,53 @@ Here, we'll specify the schema of each of the three tables you'll be required
 to have in your database. All of the parameters are **non-nullable**.
 
 `User`:
+- `id` - integer, primary key
 - `Name` - text string
 - `Email` - text string - should be validated with a WTForms validator, must be **unique**
   - (Hint: look at the WTForms validators list)
 - **Relationship to** `Post` - each user has at least 1 post
 
 `Post`:
+- `id` - integer, primary key
 - `Title` - text string
 - `Author` - text string
 - `Date` - datetime object - default value is time of creation
 - `Content` - text string
-- **Relationship to** `Post` - each post belonds to a single user
+- **Relationship to** `User` - each post belonds to a single user
 - **Relationship to** `Comment` - each post has at least 0 comments
 
 `Comment`:
+- `id` - integer, primary key
 - `Author` - text string
 - `Date` - datetime object - default value is time of creation
 - `Content` - text string
 - **Relationship to** `Post` - each comment belongs to a single post
+
+**Forms:**
+
+`New Post` Form, on `/`:
+- `Name`
+- `Email`
+- `Content`
+
+**Clarifications:** Only the email needs to be unique, that is the constraint
+we'll use to distinguish different users.
+
+If a request is made with an email that **already exists** in the database, but
+with a different name than the one associated with that email, you should disregard
+this `POST` request. You can print out an error message for debugging purposes
+if you wish, we will only be checking that the database is not updated.
+
+If a request is made with a name that already exists in the database, but
+with a different email that does not exist in the database, this request 
+should still go through and create a new user, since we are differentiating users by their email.
+  
+`New Comment` Form, on `/posts/<post_title>`:
+- `Name`
+- `Content`
+
+**Clarifications:** There are no restrictions on who can comment, so you don't
+have to check for anything here. The `name` is not associated with a user.
 
 Use the examples from the lecture notes if you get confused on how to create 
 these tables.
@@ -159,11 +192,11 @@ Your project will be graded as follows:
 - 15 pts - 5 pts for each correctly created `Model`
 - 5 pts - Secret key created and set
 - 5 pts - All required details for blog posts are visible on index page, and content synopsis
-          is limited to 250 characters
+          is limited to 250 characters, and link to index page at `/` exists.
 - 5 pts - All required details for blog posts are visible on user page, and content synopsis is
-          limited to 250 characters if longer.
+          limited to 250 characters, and link to index page at `/` exists
 - 5 pts - All required details for comments and the current post are visible on post detail page.
-- 5 pts - Redirects after a post request to avoid the "resend data again?" prompt
+- 5 pts - Redirects after a post requests to avoid the "resend data again?" prompt
 - 5 pts - Dates formatted similarly to `September 01, 2019`.
 - 5 pts - `__repr__` method implemented for each `Model`
 
