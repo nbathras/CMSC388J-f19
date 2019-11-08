@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 {% block content %}
 
@@ -21,4 +22,37 @@
     </form>
 </div>
 
+=======
+{% extends "base.html" %}
+{% block content %}
+    <div>
+        <h2>Log In</h2>
+    </div>
+    <div>
+        If you <b>don't</b> have an account, then <a href={{ url_for('register') }}>Register!</a>
+    </div>
+    <div>
+        <form action="" method="post">
+            {{ form.csrf_token }}
+            <div>
+                {{ form.username.label}}
+                {{ form.username }}
+                {% if form.username.errors %}
+                <div>
+                    {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            </div>
+            <div>
+                {{ form.password.label }}
+                {{ form.password }}
+            </div>
+            <div>
+                {{ form.submit }}
+            </div>
+        </form>
+    </div>
+>>>>>>> afa158b78cafcfb689bf752b992e49d83dcbb0f3
 {% endblock %}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 {% block content %}
 <div>
@@ -20,4 +21,23 @@
     <a href={{ url_for('register') }}>Register!</a> or <a href={{ url_for('login') }}>Login!</a>
 </div>
 
+=======
+{% extends "base.html" %}
+{% block content %}
+    <div>
+        <h2>Posts</h2>
+    </div>
+    {% for post in posts %}
+        <article>
+            <div>
+                <div>
+                    <a href={{ url_for('user_detail', username=post.author.username) }}>{{ post.author.username }}</a>
+                    <small>{{ post.date.strftime('%B %d, %Y') }}</small>
+                </div>
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.content }}</p>
+            </div>
+        </article>
+    {% endfor %}
+>>>>>>> afa158b78cafcfb689bf752b992e49d83dcbb0f3
 {% endblock %}
