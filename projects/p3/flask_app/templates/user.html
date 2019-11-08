@@ -1,19 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{ User }'s page</h1> <!-- Should be changed -->  
+<div style="display: inline;">
+    <h1 style="display: inline;">{{ user.name }}'s page</h1> 
+    <a href={{ url_for('index')}} style="display: inline;">(Back)</a>
+</div>
 <div>
     <div>
-        Email: { Email } <!-- Should be changed -->  
+        Email: {{ user.email }} <!-- Should be changed -->  
     </div>
     <div>
-        Posts written: { Number of Posts written }  <!-- Should be changed -->  
+        Posts written: {{ number_of_posts }}  <!-- Should be changed -->  
     </div>
 </div>
+<hr>
+</br>
 {% for post in posts %}
     <article>
         <div>
-           <!-- List all of the blog posts written by the user -->
-           <!-- Should be changed -->  
+            <div>
+                <!-- Post author and date of publication -->
+                <a href={{ url_for('profile', name=post.user_name, user_id=post.user_id) }}>{{ post.user_name }}</a> <br>
+                Published: {{ post.date }}
+            </div>
+            <!-- The name of the blog post, and then the blog content -->
+            <h2><a href={{ url_for('post_detail', post_title=post.title, post_id=post.id) }}> {{ post.title }}</a></h2>
+            <p>{{ post.content }}</p>
         </div>
     </article>
+    <hr>
+    </br>
+{% endfor %}
 {% endblock %}

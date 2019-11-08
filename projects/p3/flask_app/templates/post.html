@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+<a href={{ url_for('index')}} style="float:right">(Back)</a>
 <article>
     <div>
         <div>
             <!-- Post metadata -->
-            <a href="">{ Post Author }</a> <br>     <!-- Should be changed -->
-            Published: { Post Date }    <!-- Should be changed -->
+            <a href={{ url_for('profile', name=post.user.name, user_id=post.user.id) }}>{{ post.user.name }}</a> <br>
+            Published: {{ post.date }}
         </div> 
-        <h2>{ Post Title }</h2>          <!-- Should be changed -->
-        <p>{ Post Content }</p>          <!-- Should be changed -->
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
     </div>
 </article>
 
@@ -17,18 +18,26 @@
     {% for comment in comments %}
     <div>
         <div>
-            { Comment Author } at { Comment Date } said: <!-- Should be changed -->
+            {{ comment.author }} at {{ comment.date}} said: 
         </div>
         <p>
-            { Comment Content }
+            {{ comment.content }}
         </p>
     </div>
+    <hr>
     {% endfor %}
 </div>
-<div>
+</br>
+<div style="border: 1px solid">
     Submit a new comment!
     <form action="" method="post">
-       <!-- Should be changed --> 
+        <!-- Should be changed --> 
+        {{ form.csrf_token }}
+        {{ form.author.label }}: {{ form.author(size=40) }} <br>
+        {{ form.content.label }}: {{ form.content(size=80)}} <br>
+        {{ form.date.label }}: {{ form.date(size=40, class='datepicker', value=default_date_time)}} <br>
+
+        <input type="submit" value="Submit">
     </form>
 </div>
 {% endblock %}
