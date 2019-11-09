@@ -8,7 +8,10 @@ from flask_talisman import Talisman
 
 csp = {
     "default-src": [
-        "'self'",
+        '\'self\'',
+        'https://code.jquery.com/',
+        'https://cdnjs.cloudflare.com/ajax/libs/popper.js/',
+        'https://stackpath.bootstrapcdn.com/bootstrap/'
     ]
 }
 
